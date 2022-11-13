@@ -1,5 +1,1 @@
-import expenses from './expenses.route';
-
-export default {
-	expenses
-};
+export expenses from './expenses.route';

@@ -1,9 +1,16 @@
 import { Router } from 'express';
+import db from '../lib/db';
 
 const r = Router();
 
-r.use('/', (_, res) => {
-	res.json("we\'re getting expenses");
+r.get('/', (_, res, next) => {
+	db.query('SELECT * FROM expenses')
+		.then(([data]) => {
+			res.json(data);
+		})
+		.catch(err => {
+			next(err);
+		});
 });
 
 export default r;
