@@ -12,4 +12,10 @@ app.use(cors({ origin: '*' }));
 // Routes
 app.use('/expenses', routes.expenses);
 
+// Error handler
+app.use((err, req, res, next) => {
+	res.status(err.statusCode || 500);
+	res.json({ err });
+});
+
 export default app;

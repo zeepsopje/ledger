@@ -1,17 +1,17 @@
-const baseUrl = 'http://localhost:3000';
+import axios from 'axios';
 
-async function rawGet(route = '/') {
-	const res = await fetch(baseUrl + route, {
-		method: 'GET',
-	});
+const client = axios.create({
+	baseURL: 'http://localhost:3000',
+	headers: {
+		'Accept': 'application/json',
+		'Content-Type': 'application/json',
+	}
+});
 
-	return await res.json();
+export function getExpenses() {
+	return client.get('/expenses');
 }
 
-async function getExpenses() {
-	return await rawGet('/expenses');
+export function addExpense(expense) {
+	return client.post('/expenses', expense);
 }
-
-export default {
-	getExpenses
-};

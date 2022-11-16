@@ -1,15 +1,30 @@
 <script>
-	import ledger from '@lib/ledger';
-	import Expense  from '@lib/Expense.svelte';
+	import { addExpense } from '@lib/ledger';
+	import Expenses from '@lib/Expenses.svelte';
 
-	let expenses = ledger.getExpenses();
+	let shuffle = 0;
+
+	function handleExpenseForm({ target }) {
+		const form = new FormData(target);
+		const expense = {
+			name: form.get('name'),
+			amount: form.get('amount'),
+		};
+
+		addExpense(expense)
+			.then(() => {
+				shuffle++
+			});
+	}
 </script>
 
 <h1>Expenses</h1>
+{#key shuffle}
+	<Expenses />
+{/key}
 
-{#await expenses}
-{:then expenses}
-	{#each expenses as {name, amount, created_at: date}}
-		<Expense {name} {date} {amount} />
-	{/each}
-{/await}
+<form on:submit|preventDefault={handleExpenseForm}>
+	<input name="name" placeholder="Name" type="text" />
+	<input name="amount" placeholder="Amount" type="number" />
+	<input type="submit" />
+</form>
