@@ -1,4 +1,23 @@
+@import 'fonts.css';
+
 * {
 	margin: 0;
 	box-sizing: border-box
+}
+
+body,
+button,
+input,
+{
+	font-family: 'Work Sans';
+	font-size: 14px;
+	font-weight: normal;
+}
+
+body {
+	background-color: #f2f3f7;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight: bold;
 }

@@ -1,7 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
 	import { getExpenses } from '@lib/ledger';
-	import Expense from './Expense.svelte';
 
 	let expenses = [];
 
@@ -12,5 +11,9 @@
 </script>
 
 {#each expenses as {name, amount, created_at: date}}
-	<Expense {name} {amount} {date} />
+	<div class="item">
+	</div>
 {/each}
+
+<style>
+</style>
