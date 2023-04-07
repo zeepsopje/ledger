@@ -1,3 +1,4 @@
+use serde::{Serialize, Deserialize};
 use clap::{Args, ValueEnum};
 
 #[derive(Debug, Args)]
@@ -9,13 +10,13 @@ pub struct EntryArg {
     pub desc: String,
 }
 
-#[derive(Debug, ValueEnum, Clone)]
+#[derive(Debug, ValueEnum, Clone, Serialize, Deserialize)]
 pub enum EntryFlow {
     In,
     Out,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Entry {
     pub date: String,
     pub desc: String,

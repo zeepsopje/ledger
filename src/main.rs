@@ -1,8 +1,10 @@
 mod ledger;
 mod entry;
 
+use std::{fs, env};
 use entry::EntryArg;
 use clap::{Parser, Subcommand};
+use serde::{Serialize, Deserialize};
 use ledger::Ledger;
 
 #[derive(Parser, Debug)]
@@ -22,7 +24,11 @@ enum Command {
 }
 
 fn main() {
-    let mut ledger = Ledger::new();
+    let path = format!("{}/.config/ledger", env!("HOME"));
+    fs::create_dir_all(&path).unwrap();
+    let mut ledger = Ledger::from_file(
+        &format!("{}/ledger.json", &path)
+    ).unwrap_or(Ledger::new());
     let cli = Cli::parse();
 
     match &cli.command {
@@ -34,6 +40,14 @@ fn main() {
         },
         _ => {
             dbg!(&ledger);
+        }
+    }
+
+    match &cli.command {
+        Some(Command::Status) => {},
+        None => {},
+        _ => {
+            ledger.save(&format!("{}/.config/ledger/ledger.json", env!("HOME"))).expect("Couldn't save changes");
         }
     }
 }
