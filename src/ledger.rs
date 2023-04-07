@@ -1,4 +1,4 @@
-use crate::entry::{self, Entry};
+use crate::entry::{self, Entry, EntryFlow};
 
 #[derive(Debug)]
 pub struct Ledger {
@@ -15,19 +15,19 @@ impl Ledger {
     }
 
     fn add_entry(&mut self, entry: Entry) {
-        match entry.value {
-            entry::Value::In(value) => self.balance += value,
-            entry::Value::Out(value) => self.balance -= value,
+        match entry.flow {
+            entry::EntryFlow::In => self.balance += entry.value,
+            entry::EntryFlow::Out => self.balance -= entry.value,
         }
 
         self.entries.push(entry);
     }
 
     pub fn withdraw(&mut self, desc: &str, value: i32) {
-        self.add_entry(Entry::new(desc, entry::Value::Out(value)));
+        self.add_entry(Entry::new(desc, value, EntryFlow::Out));
     }
 
     pub fn deposit(&mut self, desc: &str, value: i32) {
-        self.add_entry(Entry::new(desc, entry::Value::In(value)));
+        self.add_entry(Entry::new(desc, value, EntryFlow::In));
     }
 }

@@ -1,22 +1,35 @@
-#[derive(Debug)]
-pub enum Value {
-    In(i32),
-    Out(i32),
+use clap::{Args, ValueEnum};
+
+#[derive(Debug, Args)]
+pub struct EntryArg {
+    /// Value of the entry
+    pub value: i32,
+
+    /// Description of the entry
+    pub desc: String,
+}
+
+#[derive(Debug, ValueEnum, Clone)]
+pub enum EntryFlow {
+    In,
+    Out,
 }
 
 #[derive(Debug)]
 pub struct Entry {
     pub date: String,
     pub desc: String,
-    pub value: Value,
+    pub value: i32,
+    pub flow: EntryFlow,
 }
 
 impl Entry {
-    pub fn new(desc: &str, value: Value) -> Entry {
+    pub fn new(desc: &str, value: i32, flow: EntryFlow) -> Entry {
         Entry {
             date: "curr_date".to_string(),
             desc: desc.to_string(),
             value,
+            flow,
         }
     }
 }
